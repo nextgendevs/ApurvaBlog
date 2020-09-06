@@ -5,22 +5,17 @@
         const blogQuery = gql`
         query Blogs {  
                 blogs {
-                        id
-                        Title
+                        id   
                         Description
-                        Published
+                        Date
                         Body
-                        author {
-                                username
-                        }
                         Slug
                 }
         }
         `;
-        //https://localhost:1337/graphql
         export async function preload({params, query}) {
                 const client = new ApolloClient({ 
-                        uri: 'https://localhost:1337/graphql',
+                        uri: 'https://starpi-cms.herokuapp.com/graphql',
                         fetch: this.fetch
                          });
                 const results = await client.query({
@@ -28,6 +23,7 @@
                 })
                 return {posts: results.data.blogs}
         }
+        
 </script>
 
 <script>
@@ -54,11 +50,11 @@
 {#each posts as post}
     <li>
           <a class="main-title" rel='prefetch' href='articles/{post.Slug}'>
-            {post.Title}
+            {post.Description}
           </a>
     </li>
     <p> 
-  {moment().to(post.Published, "DD-MM-YYYY")} ago by {post.author.username} 
+  {moment().to(post.Published, "DD-MM-YYYY")}
     </p>
 {/each}
 </ul>

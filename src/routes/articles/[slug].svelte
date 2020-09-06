@@ -5,21 +5,16 @@
         const blogQuery = gql`
         query Blogs($Slug: String!) {
                 blogs: blogs(where: { Slug: $Slug }) {
-                        id
-                        Title
+                      id   
                         Description
-                        Published
+                        Date
                         Body
-                        author {
-                                username
-                        }
                         Slug
                 }
-                }
-        `;
+                }  `;
         export async function preload({params, query}) {
                 const client = new ApolloClient({ 
-                        uri: 'https://localhost:1337/graphql',
+                        uri: 'https://starpi-cms.herokuapp.com/graphql',
                         fetch: this.fetch
                          });
                 const results = await client.query({
@@ -63,8 +58,8 @@
 </svelte:head>
 
 {#each post as post}
-                <h2>{post.Title}</h2>
-                <h3>{moment().to(post.Published)} by {post.author.username}</h3>
+                <h2>{post.Description}</h2>
+                <h3>{moment().to(post.Published)} </h3>
 
                 <div class='content'>
                 {@html post.Body} </div>
